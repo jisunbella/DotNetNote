@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace DotNetNoteSP
 {
     public class Startup
-    {
+    { 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
