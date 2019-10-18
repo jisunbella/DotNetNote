@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DotNetNoteSP.Models;
+using DotNetNote.Models;
 
-namespace DotNetNoteSP.Controllers
+namespace DotNetNote.Controllers
 {
     public class HomeController : Controller
     {

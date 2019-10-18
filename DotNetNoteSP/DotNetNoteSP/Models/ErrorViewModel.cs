@@ -1,6 +1,6 @@
 using System;
 
-namespace DotNetNoteSP.Models
+namespace DotNetNote.Models
 {
     public class ErrorViewModel
     {
