@@ -30,20 +30,30 @@ namespace DotNetNote.Models
         /// 게시판 리스트
         /// </summary>
         /// <param name="page">페이지 번호</param>
-        /// <returns></returns>
         public List<Board> GetBoards(int page = 1)
         {
             _logger.LogInformation("데이터 출력");
             try
             {
                 var parameters = new DynamicParameters(new { Page = page });
-                return con.Query<Board>("Select Id, Title, Name, PostDate From Board").ToList(); 
+                return con.Query<Board>("SELECT Id, Title, Name, PostDate FROM Board ORDER BY Id DESC").ToList(); 
             }
             catch(Exception ex)
             {
                 _logger.LogError("데이터 출력 에러: " + ex);
                 return null;
             }
+        }
+
+        /// <summary>
+        /// 글 상세보기
+        /// </summary>
+        /// <param name="id">글 번호</param>
+        public Board GetDetailById(int id)
+        {
+            var parameters = new DynamicParameters(new { Id = id });
+            //return con.Query<Board>("SELECT Id, Title, Name, PostDate, Content FROM Board WHERE Id = @Id", parameters).SingleOrDefault();
+            return con.Query<Board>("SP_GetDetail", parameters, commandType: CommandType.StoredProcedure).SingleOrDefault();
         }
     }
 }

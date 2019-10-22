@@ -19,11 +19,25 @@ namespace DotNetNote.Controllers
             _repository = repository;
         }
 
-
+        /// <summary>
+        /// 게시판 리스트
+        /// </summary>
+        /// <returns>Index.cshtml</returns>
         public IActionResult Index()
         {
             IEnumerable<Board> board;
             board = _repository.GetBoards(1);
+
+            return View(board);
+        }
+
+        public IActionResult Detail(int id)
+        {
+            //넘어온 id에 해당하는 레코드 읽어서 board에 바인딩
+            var board = _repository.GetDetailById(id);
+
+            string content = board.Content;
+            ViewBag.Content = content;
 
             return View(board);
         }

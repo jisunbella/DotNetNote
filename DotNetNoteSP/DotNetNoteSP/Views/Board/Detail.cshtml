@@ -1,0 +1,42 @@
+﻿@model Board
+@inject IBoardRepository DnnRepo
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+
+
+<label>번호 : </label>
+<span>@Html.DisplayFor(modelItem => Model.Id)</span>
+<br />
+<br />
+<label>제목 : </label>
+<span>@Html.DisplayFor(modelItem => Model.Title)</span>
+<br />
+<br />
+<label>작성자 : </label>
+<span>@Html.DisplayFor(modelItem => Model.Name)</span>
+<br />
+<br />
+<label>작성일 : </label>
+<span>@Html.DisplayFor(modelItem => Model.PostDate)</span>
+<br />
+<br />
+<label>내용 &nbsp;&nbsp;&nbsp;: </label>
+<p>@Html.DisplayFor(modelItem => Model.Content)</p>
+
+<br />
+<br />
+<input type="button" value="목록" id="btnClose" />
+
+
+@section Scripts{
+    <script>
+        $("#btnClose").click(function () {
+            $(location).attr('href', '/Board/Index');
+        });
+    </script>
+}
+
+ 

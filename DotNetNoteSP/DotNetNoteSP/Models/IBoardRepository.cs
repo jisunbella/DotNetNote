@@ -7,8 +7,16 @@ namespace DotNetNote.Models
 {
     public interface IBoardRepository
     {
-        //Board 페이지에서 사용
+        /// <summary>
+        /// Board 리스트 출력
+        /// </summary>
         List<Board> GetBoards(int page);
+
+        /// <summary>
+        /// 글 상세보기
+        /// </summary>
+        /// <param name="id">글번호</param>
+        Board GetDetailById(int id);
         
     }
 }
