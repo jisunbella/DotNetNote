@@ -55,5 +55,30 @@ namespace DotNetNote.Models
             //return con.Query<Board>("SELECT Id, Title, Name, PostDate, Content FROM Board WHERE Id = @Id", parameters).SingleOrDefault();
             return con.Query<Board>("SP_GetDetail", parameters, commandType: CommandType.StoredProcedure).SingleOrDefault();
         }
+
+        /// <summary>
+        /// 글 작성하기
+        /// </summary>
+        public void WriteArticle(Board board)
+        {
+            _logger.LogInformation("데이터 입력");
+            try
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@Title", value: board.Title, dbType: DbType.String);
+                p.Add("@Name", value: board.Name, dbType: DbType.String);
+                p.Add("@Content", value: board.Content, dbType: DbType.String);
+                p.Add("@Password", value: board.Password, dbType: DbType.Int32);
+
+                con.Execute("SP_WriteArticle", p, commandType: CommandType.StoredProcedure);
+                
+                
+            }
+            catch(System.Exception ex)
+            {
+                _logger.LogError("데이터 입력 에러: " + ex);
+            }
+        }
     }
 }

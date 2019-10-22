@@ -17,6 +17,11 @@ namespace DotNetNote.Models
         /// </summary>
         /// <param name="id">글번호</param>
         Board GetDetailById(int id);
+
+        /// <summary>
+        /// 글 작성하기
+        /// </summary>
+        void WriteArticle(Board board);
         
     }
 }

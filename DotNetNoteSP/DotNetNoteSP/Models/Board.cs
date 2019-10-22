@@ -27,7 +27,7 @@ namespace DotNetNote.Models
         public string Content { get; set; }
 
         [Display(Name = "비밀번호")]
-        public string Password { get; set; }
+        public int Password { get; set; }
 
 
     }

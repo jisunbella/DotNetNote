@@ -45,5 +45,32 @@ namespace DotNetNote.Controllers
 
             return View(board);
         }
+
+        /// <summary>
+        /// 글쓰기
+        /// </summary>
+        [HttpGet]
+        public IActionResult Write()
+        {
+            return View();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Write(Board board)
+        {
+            Board b = new Board();
+
+            b.Title = board.Title;
+            b.Name = board.Name;
+            b.Content = board.Content;
+            b.Password = board.Password;
+
+            _repository.WriteArticle(b);
+
+            TempData["Message"] = "데이터가 저장되었습니다.";
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
