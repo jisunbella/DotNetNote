@@ -16,10 +16,10 @@
     {
         <tr>
             <td style="text-align:center;">
-                @Html.DisplayFor(modelItem => item.Id)
+               @Html.DisplayFor(modelItem => item.Id)
             </td>            
             <td style="text-align:left;">
-                @Html.DisplayFor(modelItem => item.Title)
+                <a asp-controller="Board" asp-action="Detail" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Title)</a>
             </td>            
             <td style="text-align:center;">
                 @Html.DisplayFor(modelItem => item.Name)

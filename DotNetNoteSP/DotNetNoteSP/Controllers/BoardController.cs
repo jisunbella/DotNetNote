@@ -31,6 +31,10 @@ namespace DotNetNote.Controllers
             return View(board);
         }
 
+        /// <summary>
+        /// 글 상세보기
+        /// </summary>
+        /// <param name="id">글 번호</param>
         public IActionResult Detail(int id)
         {
             //넘어온 id에 해당하는 레코드 읽어서 board에 바인딩

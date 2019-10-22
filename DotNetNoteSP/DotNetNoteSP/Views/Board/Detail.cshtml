@@ -5,31 +5,52 @@
     ViewData["Title"] = "Detail";
 }
 
+    <div style="width:700px; padding:0px; margin:auto;">
+        <table style="width:700px; margin-left:auto; margin-right:auto;">
+            <tbody>
+                <tr style="color: white; background-color: #5E8680; text-align:center;">
+                    <td colspan="4" style="height: 35px;">
+                        <span style="font-weight:bold;font-size:16px;">
+                           제목 : @Model.Title
+                        </span>
+                    </td>
+                </tr>
+                <tr style="background-color:#efefef;">
+                    <td class="text-right" style="width:15%;">
+                        번 호 :
+                    </td>
+                    <td style="width:35%; font-size:14px;">
+                        <span style="font-size:14px;">@Model.Id</span>
+                    </td>
+                    <td class="text-right" style="width:15%; font-size:14px;">
+                        작성일 :
+                    </td>
+                    <td style="width:35%;">
+                        <span style="font-size:15px; text-align:left;">@Model.PostDate</span>
+                    </td>
+                </tr>
+                <tr style="background-color:#efefef;">
+                    <td class="text-right" style="width:15%; font-size:14px;">
+                        작성자 :
+                    </td>
+                    <td colspan="3">
+                        <span style="font-size:14px;">@Model.Name</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="padding: 10px; height: 100px; vertical-align:top;">
+                        @Model.Content
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-
-<label>번호 : </label>
-<span>@Html.DisplayFor(modelItem => Model.Id)</span>
-<br />
-<br />
-<label>제목 : </label>
-<span>@Html.DisplayFor(modelItem => Model.Title)</span>
-<br />
-<br />
-<label>작성자 : </label>
-<span>@Html.DisplayFor(modelItem => Model.Name)</span>
-<br />
-<br />
-<label>작성일 : </label>
-<span>@Html.DisplayFor(modelItem => Model.PostDate)</span>
-<br />
-<br />
-<label>내용 &nbsp;&nbsp;&nbsp;: </label>
-<p>@Html.DisplayFor(modelItem => Model.Content)</p>
-
-<br />
-<br />
-<input type="button" value="목록" id="btnClose" />
-
+        <br />
+        <br />
+        <div style="margin:auto;">
+            <input type="button" value="목록" id="btnClose" />
+        </div>
+    </div>
 
 @section Scripts{
     <script>
