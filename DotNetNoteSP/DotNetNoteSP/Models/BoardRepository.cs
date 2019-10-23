@@ -83,10 +83,10 @@ namespace DotNetNote.Models
             }
         }
 
-        public string GetFileNameById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// 파일 이름 가져오기
+        /// </summary>
+        public string GetFileNameById(int id) => con.Query<string>("SELECT FileName FROM Board WHERE Id = @Id", new { Id = id }).SingleOrDefault();
 
         /// <summary>
         /// 글 삭제 
@@ -112,6 +112,8 @@ namespace DotNetNote.Models
                 p.Add("@Name", value: board.Name, dbType: DbType.String);
                 p.Add("@Content", value: board.Content, dbType: DbType.String);
                 p.Add("@Password", value: board.Password, dbType: DbType.String);
+                p.Add("@FileName", value: board.FileName, dbType: DbType.String);
+                p.Add("@FileSize", value: board.FileSize, dbType: DbType.Int32);
 
                 r = con.Execute("[SP_UpdateArticle]", p, commandType: CommandType.StoredProcedure);
             }

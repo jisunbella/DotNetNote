@@ -185,51 +185,69 @@ namespace DotNetNote.Controllers
             ViewBag.SaveButtonText = "수정";
 
             // 기존 데이터를 바인딩
-            var note = _repository.GetDetailById(id);
+            var board = _repository.GetDetailById(id);
 
-            return View(note);
+            // 첨부된 파일명 및 파일크기 기록
+            if (!String.IsNullOrEmpty(board.FileName))
+            {
+                if (board.FileName.Length > 1)
+                {
+                    ViewBag.FileName = board.FileName;
+                    ViewBag.FileSize = board.FileSize;
+                    ViewBag.FileNamePrevious =
+                        $"기존에 업로드된 파일명: {board.FileName}";
+                }
+            }
+            else
+            {
+                ViewBag.FileName = "";
+                ViewBag.FileSize = 0;
+            }
+
+            return View(board);
         }
 
         /// <summary>
         /// 게시판 수정 처리 
         /// </summary>
         [HttpPost]
-        public async Task<IActionResult> Edit(Board model, int id)
+        public async Task<IActionResult> Edit(Board model, ICollection<IFormFile> files,
+            int id, string previousFileName = "", int previousFileSize = 0)
         {
             ViewBag.FormType = 1;
             ViewBag.TitleDescription = "글 수정 - 아래 항목을 수정하세요.";
             ViewBag.SaveButtonText = "수정";
 
-            //string fileName = "";
-            //int fileSize = 0;
+            string fileName = "";
+            int fileSize = 0;
 
-            //if (previousFileName != null)
-            //{
-            //    fileName = previousFileName;
-            //    fileSize = previousFileSize;
-            //}
+            if (previousFileName != null)
+            {
+                fileName = previousFileName;
+                fileSize = previousFileSize;
+            }
 
-            ////파일 업로드 처리 시작
-            //var uploadFolder = Path.Combine(_environment.WebRootPath, "files");
+            //파일 업로드 처리 시작
+            var uploadFolder = Path.Combine(_environment.WebRootPath, "files");
 
-            //foreach (var file in files)
-            //{
-            //    if (file.Length > 0)
-            //    {
-            //        fileSize = Convert.ToInt32(file.Length);
-            //        // 파일명 중복 처리
-            //        fileName = Dul.FileUtility.GetFileNameWithNumbering(
-            //            uploadFolder, Path.GetFileName(
-            //                ContentDispositionHeaderValue.Parse(
-            //                    file.ContentDisposition).FileName.Trim('"')));
-            //        // 파일업로드
-            //        using (var fileStream = new FileStream(
-            //            Path.Combine(uploadFolder, fileName), FileMode.Create))
-            //        {
-            //            await file.CopyToAsync(fileStream);
-            //        }
-            //    }
-            //}
+            foreach (var file in files)
+            {
+                if (file.Length > 0)
+                {
+                    fileSize = Convert.ToInt32(file.Length);
+                    // 파일명 중복 처리
+                    fileName = Dul.FileUtility.GetFileNameWithNumbering(
+                        uploadFolder, Path.GetFileName(
+                            ContentDispositionHeaderValue.Parse(
+                                file.ContentDisposition).FileName.Trim('"')));
+                    // 파일업로드
+                    using (var fileStream = new FileStream(
+                        Path.Combine(uploadFolder, fileName), FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+                }
+            }
 
             Board board = new Board();
 
@@ -238,6 +256,8 @@ namespace DotNetNote.Controllers
             board.Title = Dul.HtmlUtility.Encode(model.Title);
             board.Content = model.Content;
             board.Password = model.Password;
+            board.FileName = fileName;
+            board.FileSize = fileSize;
 
             int r = _repository.UpdateArticle(board); // 데이터베이스에 수정 적용
             if (r > 0)

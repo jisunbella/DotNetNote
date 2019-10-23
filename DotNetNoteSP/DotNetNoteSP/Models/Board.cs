@@ -11,28 +11,28 @@ namespace DotNetNote.Models
     /// </summary>
     public class Board
     {
-        [Display(Name="번호")]
+        [Display(Name="No.")]
         public int Id { get; set; }
 
-        [Display(Name = "작성자")]
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
-        [Display(Name = "제목")]
+        [Display(Name = "Title")]
         public string Title { get; set; }
 
-        [Display(Name = "작성일")]
+        [Display(Name = "Date")]
         public DateTime PostDate { get; set; }
 
-        [Display(Name = "내용")]
+        [Display(Name = "Content")]
         public string Content { get; set; }
 
-        [Display(Name = "비밀번호")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "파일")]
+        [Display(Name = "File")]
         public string FileName { get; set; }
 
-        [Display(Name = "파일크기")]
+        [Display(Name = "FileSize")]
         public int FileSize { get; set; }
     }
 }

@@ -10,38 +10,38 @@
 <div style="width:900px; padding:0px; margin:auto;">
     <table style="width:900px; margin-left:auto; margin-right:auto;">
         <tbody>
-            <tr style="background-color: thistle; text-align:center;">
+            <tr style="text-align:left;">
                 <td colspan="4" style="height: 35px;">
-                    <span style="font-weight:bold;font-size:16px;">
-                        제목 : @Model.Title
+                    <span style="font-weight:bold;font-size:20px;">
+                        @Model.Title
                     </span>
                 </td>
             </tr>
-            <tr style="background-color:floralwhite;">
-                <td class="text-right" style="width:15%;font-size:13px;">
+            <tr>
+                <td class="text-left" style="width:7%;font-size:13px;">
                     번 호 :
                 </td>
-                <td style="width:35%; font-size:13px;">
+                <td style="width:43%; font-size:13px;">
                     <span style="font-size:13px;">@Model.Id</span>
                 </td>
-                <td class="text-right" style="width:15%; font-size:13px;">
+                <td class="text-left" style="width:10%; font-size:13px;">
                     작성일 :
                 </td>
-                <td style="width:35%;">
+                <td style="width:40%;">
                     <span style="font-size:13px; text-align:left;">@Model.PostDate</span>
                 </td>
             </tr>
-            <tr style="background-color:floralwhite;">
-                <td class="text-right" style="width:15%; font-size:13px;">
+            <tr style="border-collapse: collapse; border-bottom:1px solid black;">
+                <td class="text-left" style="width:7%; font-size:13px;">
                     작성자 :
                 </td>
-                <td style="width:35%; font-size:14px;">
+                <td style="width:43%; font-size:14px;">
                     <span style="font-size:13px;">@Model.Name</span>
                 </td>
-                <td class="text-right" style="width:15%; font-size:13px;">
+                <td class="text-left" style="width:10%; font-size:13px;">
                     첨부파일 :
                 </td>
-                <td style="width:35%;">
+                <td style="width:40%;">
                     <span style="font-size:13px; text-align:left; color: gray;">@Html.Raw(ViewBag.FileName)</span>
                 </td>
             </tr>
