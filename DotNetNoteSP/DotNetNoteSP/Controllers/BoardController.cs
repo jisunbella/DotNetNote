@@ -51,7 +51,73 @@ namespace DotNetNote.Controllers
             string content = board.Content;
             ViewBag.Content = content;
 
+            // 첨부된 파일 확인
+            if (String.IsNullOrEmpty(board.FileName))
+            {
+                ViewBag.FileName = "(업로드된 파일이 없습니다.)";
+            }
+            else
+            {           
+                // 이미지 미리보기:
+                if (Dul.BoardLibrary.IsPhoto(board.FileName))
+                {
+                    ViewBag.ImageDown = $"<img src=\'/files/{board.FileName}\'><br />";
+                }
+            }
             return View(board);
+        }
+
+        /// <summary>
+        /// ImageDown : 완성형(DotNetNote) 게시판의 이미지전용다운 페이지
+        /// 이미지 경로를 보여주지 않고 다운로드: 
+        ///    대용량 사이트 운영시 직접 이미지 경로 사용 권장(CDN 사용)
+        /// /DotNetNote/ImageDown/1234 => 1234번 이미지 파일을 강제 다운로드
+        /// <img src="/DotNetNote/ImageDown/1234" /> => 이미지 태그 실행
+        /// </summary>
+        public IActionResult ImageDown(int id)
+        {
+            string fileName = "";
+
+            // 넘겨져 온 번호에 해당하는 파일명 가져오기(보안때문에 파일명 숨김)
+            fileName = _repository.GetFileNameById(id);
+
+            if (fileName == null)
+            {
+                return null;
+            }
+            else
+            {
+                string strFileName = fileName;
+                string strFileExt = Path.GetExtension(strFileName);
+                string strContentType = "";
+                if (strFileExt == ".gif" || strFileExt == ".jpg"
+                    || strFileExt == ".jpeg" || strFileExt == ".png")
+                {
+                    switch (strFileExt)
+                    {
+                        case ".gif":
+                            strContentType = "image/gif"; break;
+                        case ".jpg":
+                            strContentType = "image/jpeg"; break;
+                        case ".jpeg":
+                            strContentType = "image/jpeg"; break;
+                        case ".png":
+                            strContentType = "image/png"; break;
+                    }
+                }
+
+                if (System.IO.File.Exists(Path.Combine(_environment.WebRootPath, "files") + "\\" + fileName))
+                {
+                    // 이미지 파일 정보 얻기
+                    byte[] fileBytes = System.IO.File.ReadAllBytes(Path.Combine(
+                        _environment.WebRootPath, "files") + "\\" + fileName);
+
+                    // 이미지 파일 다운로드 
+                    return File(fileBytes, strContentType, fileName);
+                }
+
+                return Content("http://placehold.it/250x150?text=NoImage");
+            }
         }
 
         /// <summary>

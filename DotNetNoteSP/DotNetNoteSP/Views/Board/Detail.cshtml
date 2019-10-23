@@ -18,32 +18,45 @@
                 </td>
             </tr>
             <tr style="background-color:#efefef;">
-                <td class="text-right" style="width:15%;">
+                <td class="text-right" style="width:15%;font-size:13px;">
                     번 호 :
                 </td>
-                <td style="width:35%; font-size:14px;">
-                    <span style="font-size:14px;">@Model.Id</span>
+                <td style="width:35%; font-size:13px;">
+                    <span style="font-size:13px;">@Model.Id</span>
                 </td>
-                <td class="text-right" style="width:15%; font-size:14px;">
+                <td class="text-right" style="width:15%; font-size:13px;">
                     작성일 :
                 </td>
                 <td style="width:35%;">
-                    <span style="font-size:15px; text-align:left;">@Model.PostDate</span>
+                    <span style="font-size:13px; text-align:left;">@Model.PostDate</span>
                 </td>
             </tr>
             <tr style="background-color:#efefef;">
-                <td class="text-right" style="width:15%; font-size:14px;">
+                <td class="text-right" style="width:15%; font-size:13px;">
                     작성자 :
                 </td>
-                <td colspan="3">
-                    <span style="font-size:14px;">@Model.Name</span>
+                <td style="width:35%; font-size:14px;">
+                    <span style="font-size:13px;">@Model.Name</span>
+                </td>
+                <td class="text-right" style="width:15%; font-size:13px;">
+                    첨부파일 :
+                </td>
+                <td style="width:35%;">
+                    <span style="font-size:13px; text-align:left; color: gray;">@Html.Raw(ViewBag.FileName)</span>
                 </td>
             </tr>
             <tr>
                 <td colspan="4" style="padding: 10px; height: 100px; vertical-align:top;">
                     @Model.Content
                 </td>
+            </tr>            
+            <tr>
+                <td colspan="4" style="padding: 10px; height: 100px; vertical-align:top;">
+                    @Html.Raw(ViewBag.ImageDown)
+                    
+                </td>
             </tr>
+
         </tbody>
     </table>
     <br />
