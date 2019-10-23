@@ -69,7 +69,7 @@ namespace DotNetNote.Models
                 p.Add("@Title", value: board.Title, dbType: DbType.String);
                 p.Add("@Name", value: board.Name, dbType: DbType.String);
                 p.Add("@Content", value: board.Content, dbType: DbType.String);
-                p.Add("@Password", value: board.Password, dbType: DbType.Int32);
+                p.Add("@Password", value: board.Password, dbType: DbType.String);
 
                 con.Execute("[SP_WriteArticle]", p, commandType: CommandType.StoredProcedure);
                 
@@ -80,5 +80,12 @@ namespace DotNetNote.Models
                 _logger.LogError("데이터 입력 에러: " + ex);
             }
         }
+
+        /// <summary>
+        /// 삭제 
+        /// </summary>
+        public int DeleteArticle(int id, string password) =>
+             con.Execute("[SP_DeleteArticle]", new { Id = id, Password = password }, commandType: CommandType.StoredProcedure);
+
     }
 }

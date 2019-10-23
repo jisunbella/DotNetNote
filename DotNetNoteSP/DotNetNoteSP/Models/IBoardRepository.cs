@@ -21,7 +21,12 @@ namespace DotNetNote.Models
         /// <summary>
         /// 글 작성하기
         /// </summary>
-        void WriteArticle(Board board);
+        void WriteArticle(Board model);
         
+        /// <summary>
+        /// 글 삭제하기
+        /// </summary>
+        int DeleteArticle(int id, string password);
+
     }
 }

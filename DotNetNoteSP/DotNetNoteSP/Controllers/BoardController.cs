@@ -77,5 +77,57 @@ namespace DotNetNote.Controllers
             return RedirectToAction("Index"); // 저장 후 리스트 페이지로 이동
         }
 
+        /// <summary>
+        /// 게시판 삭제 폼
+        /// </summary>
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
+
+        /// <summary>
+        /// 게시판 삭제 처리
+        /// </summary>
+        [HttpPost]
+        public IActionResult Delete(int id, string Password)
+        {
+            //if (_repository.DeleteArticle(id,
+            //    Common.CryptorEngine.EncryptPassword(Password)) > 0)
+            if (_repository.DeleteArticle(id, Password) > 0)
+            {
+                TempData["Message"] = "데이터가 삭제되었습니다.";
+
+                // 학습 목적으로 삭제 후의 이동 페이지를 2군데 중 하나로 분기
+                if (DateTime.Now.Second % 2 == 0)
+                {
+                    //[a] 삭제 후 특정 뷰 페이지로 이동
+                    return RedirectToAction("DeleteCompleted");
+                }
+                else
+                {
+                    //[b] 삭제 후 Index 페이지로 이동
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                ViewBag.Message = "삭제되지 않았습니다. 비밀번호를 확인하세요.";
+            }
+
+            ViewBag.Id = id;
+            return View();
+        }
+
+        /// <summary>
+        /// 게시판 삭제 완료 후 추가적인 처리할 때 페이지
+        /// </summary>
+        public IActionResult DeleteCompleted()
+        {
+            return View();
+        }
+
+
     }
 }
