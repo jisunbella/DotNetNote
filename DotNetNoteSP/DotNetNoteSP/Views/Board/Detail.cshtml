@@ -7,17 +7,17 @@
 <h2 style="text-align:center;">게시판</h2>
 <hr />
 
-<div style="width:700px; padding:0px; margin:auto;">
-    <table style="width:700px; margin-left:auto; margin-right:auto;">
+<div style="width:900px; padding:0px; margin:auto;">
+    <table style="width:900px; margin-left:auto; margin-right:auto;">
         <tbody>
-            <tr style="color: white; background-color: #5E8680; text-align:center;">
+            <tr style="background-color: thistle; text-align:center;">
                 <td colspan="4" style="height: 35px;">
                     <span style="font-weight:bold;font-size:16px;">
                         제목 : @Model.Title
                     </span>
                 </td>
             </tr>
-            <tr style="background-color:#efefef;">
+            <tr style="background-color:floralwhite;">
                 <td class="text-right" style="width:15%;font-size:13px;">
                     번 호 :
                 </td>
@@ -31,7 +31,7 @@
                     <span style="font-size:13px; text-align:left;">@Model.PostDate</span>
                 </td>
             </tr>
-            <tr style="background-color:#efefef;">
+            <tr style="background-color:floralwhite;">
                 <td class="text-right" style="width:15%; font-size:13px;">
                     작성자 :
                 </td>
@@ -62,7 +62,7 @@
     <br />
     <br />
 
-    <div style="margin-left: 250px;">
+    <div style="margin-left: 350px;">
         <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-default">
             삭제
         </a>
