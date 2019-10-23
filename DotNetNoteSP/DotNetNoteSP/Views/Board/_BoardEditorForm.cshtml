@@ -72,11 +72,9 @@
                    style="width:150px;display:inline-block;" maxlength="20" />
             <span style="color:#aaaaaa;">(수정/삭제시에 필요)</span><br />
             <span asp-validation-for="Password" class="text-danger"></span>
-            <div>
-                암호는 단방향으로 암호화되어 관리자도 알 수 없습니다.
-            </div>
         </div>
     </div>
+    <br />
     <div class="col-md-offset-2 col-md-10">
         <input type="submit" value="@ViewBag.SaveButtonText"
                class="btn btn-primary" />

@@ -27,14 +27,15 @@
 </script>
 
 <h2 style="text-align:center;">게시판</h2>
-<span style="color:#ff0000;">
+<p style="text-align: center;color:#ff0000;">
     글 삭제 - 글을 삭제하려면 글 작성시에 기록하였던 비밀번호가 필요합니다.
-</span>
+</p>
 <hr />
 <div style="text-align: center;">
     <form id="frmDeleteForm" asp-action="Delete"
           method="post" onsubmit="return ConfirmDelete();">
         <span class="text-danger">@ViewBag.Id</span>번 글을 지우시겠습니까?
+        <br />
         <input type="hidden" name="id" id="id" value="@ViewBag.Id" />
         <br />
         비밀번호 :
