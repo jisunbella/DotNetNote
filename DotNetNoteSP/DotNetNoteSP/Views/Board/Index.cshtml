@@ -8,6 +8,12 @@
 <h2 style="text-align:center;">게시판</h2>
 <hr />
 <div style="width: 90%; margin-left:auto; margin-right:auto;">
+    <div style="float:left; display:inline;">
+        @if (ViewBag.SearchMode)
+        {
+            <a asp-controller="Board" asp-action="Index">처음으로</a>
+        }
+    </div>
     <div>
         <a asp-action="Write" class="btn btn-default" style="float: right; color:dodgerblue;">글쓰기</a>
     </div>
@@ -39,9 +45,22 @@
             </tr>
         }
     </table>
-    <span style="display:inline-block; margin: auto;">
+    <div style="width: 300px; margin: auto;">
+        <dnn-paging-helper url="Context.Request.Path"
+                           page-index='Convert.ToInt32(Context.Request.Query["Page"])'
+                           page-size="10"
+                           search-mode='Convert.ToBoolean(@ViewBag.SearchMode)'
+                           search-field="@ViewBag.SearchField"
+                           search-query="@ViewBag.SearchQuery">
+        </dnn-paging-helper>
+    </div>
+    <div style="width: 187px; margin: auto;">
         @await Html.PartialAsync("_AdvancedPagingWithCss", ViewBag.PageModel as PagerBase)
-    </span>
+    </div>
+    <br />
+    <div style="width: 400px; margin: auto;">
+        @await  Html.PartialAsync("_SearchForm")
+    </div>
 </div>
 
 

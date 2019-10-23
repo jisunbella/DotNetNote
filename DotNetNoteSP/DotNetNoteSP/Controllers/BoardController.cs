@@ -27,12 +27,30 @@ namespace DotNetNote.Controllers
             _repository = repository;
         }
 
+        // 공통 속성: 검색 모드: 검색 모드이면 true, 그렇지 않으면 false.
+        public bool SearchMode { get; set; } = false;
+        public string SearchField { get; set; } // 필드: Name, Title, Content
+        public string SearchQuery { get; set; } // 검색 내용
+        
         /// <summary>
         /// 게시판 리스트
         /// </summary>
         /// <returns>Index.cshtml</returns>
         public IActionResult Index()
         {
+            // 검색 모드 결정: ?SearchField=Name&SearchQuery=닷넷코리아 
+            SearchMode = (
+                !string.IsNullOrEmpty(Request.Query["SearchField"]) &&
+                !string.IsNullOrEmpty(Request.Query["SearchQuery"])
+            );
+
+            // 검색 환경이면 속성에 저장
+            if (SearchMode)
+            {
+                SearchField = Request.Query["SearchField"].ToString();
+                SearchQuery = Request.Query["SearchQuery"].ToString();
+            }
+
             //쿼리스트링에 따른 페이지 보여주기
             if (!string.IsNullOrEmpty(Request.Query["Page"].ToString()))
             {
@@ -41,7 +59,19 @@ namespace DotNetNote.Controllers
             }
 
             IEnumerable<Board> board;
-            board = _repository.GetBoards(PageIndex);
+            if (!SearchMode)
+            {
+                board = _repository.GetBoards(PageIndex);
+            }
+            else
+            {
+                board = _repository.GetSearchAll(PageIndex, SearchField, SearchQuery);
+            }
+
+            //주요 정보를 뷰 페이지로 전송
+            ViewBag.SearchMode = SearchMode;
+            ViewBag.SearchField = SearchField;
+            ViewBag.SearchQuery = SearchQuery;
 
             // 페이저 컨트롤 적용
             ViewBag.PageModel = new PagerBase
@@ -50,11 +80,10 @@ namespace DotNetNote.Controllers
                 PageSize = 10,
                 PageNumber = PageIndex + 1,
 
-                //SearchMode = SearchMode,
-                //SearchField = SearchField,
-                //SearchQuery = SearchQuery
+                SearchMode = SearchMode,
+                SearchField = SearchField,
+                SearchQuery = SearchQuery
             };
-
 
             return View(board);
         }

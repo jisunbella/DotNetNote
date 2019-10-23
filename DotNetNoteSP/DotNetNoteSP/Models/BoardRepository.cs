@@ -124,6 +124,14 @@ namespace DotNetNote.Models
             return r;
         }
 
+        /// <summary>
+        /// 검색
+        /// </summary>
+        public List<Board> GetSearchAll(int page, string searchField, string searchQuery)
+        {
+            var parameters = new DynamicParameters(new { Page = page, SearchField = searchField, SearchQuery = searchQuery });
 
+            return con.Query<Board>("[SP_Search]", parameters, commandType: CommandType.StoredProcedure).ToList();
+        }
     }
 }

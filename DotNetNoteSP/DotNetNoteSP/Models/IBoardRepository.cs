@@ -37,5 +37,10 @@ namespace DotNetNote.Models
         /// 글 수정하기
         /// </summary>
         int UpdateArticle(Board board);
+
+        /// <summary>
+        /// 검색
+        /// </summary>
+        List<Board> GetSearchAll(int page, string searchField, string searchQuery);
     }
 }

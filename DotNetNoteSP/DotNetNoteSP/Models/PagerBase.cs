@@ -35,7 +35,7 @@ namespace DotNetNote.Models
         /// <summary>
         /// 페이저에 몇 개씩 페이지 버튼을 표시할지
         /// </summary>
-        public int PagerButtonCount { get; set; }
+        public int PagerButtonCount { get; set; } = 3;
 
         #region 검색 리스트 관련 속성들
         /// <summary>
