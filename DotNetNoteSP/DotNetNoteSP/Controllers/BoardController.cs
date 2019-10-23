@@ -19,7 +19,7 @@ namespace DotNetNote.Controllers
         /// <summary>
         /// 현재 보여줄 페이지 번호
         /// </summary>
-        public int PageIndex { get; set; } = 1;
+        public int PageIndex { get; set; } = 0;
 
         public BoardController(IHostingEnvironment environment, IBoardRepository repository)
         {
@@ -33,8 +33,28 @@ namespace DotNetNote.Controllers
         /// <returns>Index.cshtml</returns>
         public IActionResult Index()
         {
+            //쿼리스트링에 따른 페이지 보여주기
+            if (!string.IsNullOrEmpty(Request.Query["Page"].ToString()))
+            {
+                // Page는 보여지는 쪽은 1, 2, 3, ... 코드단에서는 0, 1, 2, ...
+                PageIndex = Convert.ToInt32(Request.Query["Page"]) - 1;
+            }
+
             IEnumerable<Board> board;
-            board = _repository.GetBoards(1);
+            board = _repository.GetBoards(PageIndex);
+
+            // 페이저 컨트롤 적용
+            ViewBag.PageModel = new PagerBase
+            {
+                Url = "Board/Index",
+                PageSize = 10,
+                PageNumber = PageIndex + 1,
+
+                //SearchMode = SearchMode,
+                //SearchField = SearchField,
+                //SearchQuery = SearchQuery
+            };
+
 
             return View(board);
         }

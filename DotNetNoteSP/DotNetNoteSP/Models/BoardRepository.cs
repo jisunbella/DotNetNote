@@ -30,13 +30,13 @@ namespace DotNetNote.Models
         /// 게시판 리스트
         /// </summary>
         /// <param name="page">페이지 번호</param>
-        public List<Board> GetBoards(int page = 1)
+        public List<Board> GetBoards(int page)
         {
             _logger.LogInformation("데이터 출력");
             try
             {
                 var parameters = new DynamicParameters(new { Page = page });
-                return con.Query<Board>("SELECT Id, Title, Name, PostDate FROM Board ORDER BY Id DESC").ToList(); 
+                return con.Query<Board>("[SP_GetList]", parameters, commandType: CommandType.StoredProcedure).ToList(); 
             }
             catch(Exception ex)
             {
