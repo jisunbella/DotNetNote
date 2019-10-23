@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using DotNetNote.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetNote.Controllers
@@ -61,20 +64,77 @@ namespace DotNetNote.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> Write(Board board)
+        public async Task<IActionResult> Write(Board board, ICollection<IFormFile> files)
         {
+            //파일 업로드 처리 시작
+            string fileName = String.Empty;
+            int fileSize = 0;
+
+            var uploadFolder = Path.Combine(_environment.WebRootPath, "files");
+
+            foreach (var file in files)
+            {
+                if (file.Length > 0)
+                {
+                    fileSize = Convert.ToInt32(file.Length);
+                    // 파일명 중복 처리
+                    fileName = Dul.FileUtility.GetFileNameWithNumbering(
+                        uploadFolder, Path.GetFileName(
+                            ContentDispositionHeaderValue.Parse(
+                                file.ContentDisposition).FileName.Trim('"')));
+                    // 파일 업로드
+                    using (var fileStream = new FileStream(
+                        Path.Combine(uploadFolder, fileName), FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+                }
+            }
+
             Board b = new Board();
 
             b.Title = board.Title;
             b.Name = board.Name;
             b.Content = board.Content;
             b.Password = board.Password;
+            b.FileName = fileName;
+            b.FileSize = fileSize;
 
             _repository.WriteArticle(b); //데이터 저장
 
             TempData["Message"] = "데이터가 저장되었습니다.";
 
             return RedirectToAction("Index"); // 저장 후 리스트 페이지로 이동
+        }
+
+        /// <summary>
+        /// 게시판 파일 강제 다운로드 기능(/BoardDown/:Id)
+        /// </summary>
+        public FileResult BoardDown(int id)
+        {
+            string fileName = "";
+
+            // 넘겨져 온 번호에 해당하는 파일명 가져오기(보안때문에... 파일명 숨김)
+            fileName = _repository.GetFileNameById(id);
+
+            if (fileName == null)
+            {
+                return null;
+            }
+            else
+            {
+                // 다운로드 카운트 증가 메서드 호출
+                //_repository.UpdateDownCountById(id);
+
+                if (System.IO.File.Exists(Path.Combine(_environment.WebRootPath, "files") + "\\" + fileName))
+                {
+                    byte[] fileBytes = System.IO.File.ReadAllBytes(Path.Combine(_environment.WebRootPath, "files") + "\\" + fileName);
+
+                    return File(fileBytes, "application/octet-stream", fileName);
+                }
+
+                return null;
+            }
         }
 
         /// <summary>

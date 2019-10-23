@@ -21,8 +21,13 @@ namespace DotNetNote.Models
         /// <summary>
         /// 글 작성하기
         /// </summary>
-        void WriteArticle(Board model);
-        
+        void WriteArticle(Board board);
+
+        /// <summary>
+        /// 첨부파일 이름 가져오기
+        /// </summary>
+        string GetFileNameById(int id);
+
         /// <summary>
         /// 글 삭제하기
         /// </summary>

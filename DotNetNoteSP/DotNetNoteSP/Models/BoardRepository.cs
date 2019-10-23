@@ -70,6 +70,8 @@ namespace DotNetNote.Models
                 p.Add("@Name", value: board.Name, dbType: DbType.String);
                 p.Add("@Content", value: board.Content, dbType: DbType.String);
                 p.Add("@Password", value: board.Password, dbType: DbType.String);
+                p.Add("@FileName", value: board.FileName, dbType: DbType.String);
+                p.Add("@FileSize", value: board.FileSize, dbType: DbType.Int32);
 
                 con.Execute("[SP_WriteArticle]", p, commandType: CommandType.StoredProcedure);
                 
@@ -79,6 +81,11 @@ namespace DotNetNote.Models
             {
                 _logger.LogError("데이터 입력 에러: " + ex);
             }
+        }
+
+        public string GetFileNameById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -114,5 +121,7 @@ namespace DotNetNote.Models
             }
             return r;
         }
+
+
     }
 }

@@ -29,6 +29,10 @@ namespace DotNetNote.Models
         [Display(Name = "비밀번호")]
         public string Password { get; set; }
 
+        [Display(Name = "파일")]
+        public string FileName { get; set; }
 
+        [Display(Name = "파일크기")]
+        public int FileSize { get; set; }
     }
 }
