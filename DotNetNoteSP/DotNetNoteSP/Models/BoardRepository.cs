@@ -82,10 +82,37 @@ namespace DotNetNote.Models
         }
 
         /// <summary>
-        /// 삭제 
+        /// 글 삭제 
         /// </summary>
         public int DeleteArticle(int id, string password) =>
              con.Execute("[SP_DeleteArticle]", new { Id = id, Password = password }, commandType: CommandType.StoredProcedure);
 
+        /// <summary>
+        /// 글 수정
+        /// </summary>
+        /// <param name="board"></param>
+        /// <returns></returns>
+        public int UpdateArticle(Board board)
+        {
+            int r = 0;
+            _logger.LogInformation("데이터 수정");
+            try
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@Id", value: board.Id, dbType: DbType.Int32);
+                p.Add("@Title", value: board.Title, dbType: DbType.String);
+                p.Add("@Name", value: board.Name, dbType: DbType.String);
+                p.Add("@Content", value: board.Content, dbType: DbType.String);
+                p.Add("@Password", value: board.Password, dbType: DbType.String);
+
+                r = con.Execute("[SP_UpdateArticle]", p, commandType: CommandType.StoredProcedure);
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError("데이터 수정 에러: " + ex);
+            }
+            return r;
+        }
     }
 }

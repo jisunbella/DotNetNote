@@ -28,5 +28,9 @@ namespace DotNetNote.Models
         /// </summary>
         int DeleteArticle(int id, string password);
 
+        /// <summary>
+        /// 글 수정하기
+        /// </summary>
+        int UpdateArticle(Board board);
     }
 }

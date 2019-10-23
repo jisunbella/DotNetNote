@@ -128,6 +128,83 @@ namespace DotNetNote.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 게시판 수정 폼
+        /// </summary>
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            ViewBag.FormType = 1;
+            ViewBag.TitleDescription = "글 수정 - 아래 항목을 수정하세요.";
+            ViewBag.SaveButtonText = "수정";
 
+            // 기존 데이터를 바인딩
+            var note = _repository.GetDetailById(id);
+
+            return View(note);
+        }
+
+        /// <summary>
+        /// 게시판 수정 처리 
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> Edit(Board model, int id)
+        {
+            ViewBag.FormType = 1;
+            ViewBag.TitleDescription = "글 수정 - 아래 항목을 수정하세요.";
+            ViewBag.SaveButtonText = "수정";
+
+            //string fileName = "";
+            //int fileSize = 0;
+
+            //if (previousFileName != null)
+            //{
+            //    fileName = previousFileName;
+            //    fileSize = previousFileSize;
+            //}
+
+            ////파일 업로드 처리 시작
+            //var uploadFolder = Path.Combine(_environment.WebRootPath, "files");
+
+            //foreach (var file in files)
+            //{
+            //    if (file.Length > 0)
+            //    {
+            //        fileSize = Convert.ToInt32(file.Length);
+            //        // 파일명 중복 처리
+            //        fileName = Dul.FileUtility.GetFileNameWithNumbering(
+            //            uploadFolder, Path.GetFileName(
+            //                ContentDispositionHeaderValue.Parse(
+            //                    file.ContentDisposition).FileName.Trim('"')));
+            //        // 파일업로드
+            //        using (var fileStream = new FileStream(
+            //            Path.Combine(uploadFolder, fileName), FileMode.Create))
+            //        {
+            //            await file.CopyToAsync(fileStream);
+            //        }
+            //    }
+            //}
+
+            Board board = new Board();
+
+            board.Id = id;
+            board.Name = model.Name;
+            board.Title = Dul.HtmlUtility.Encode(model.Title);
+            board.Content = model.Content;
+            board.Password = model.Password;
+
+            int r = _repository.UpdateArticle(board); // 데이터베이스에 수정 적용
+            if (r > 0)
+            {
+                TempData["Message"] = "수정되었습니다.";
+                return RedirectToAction("Detail", new { Id = id });
+            }
+            else
+            {
+                ViewBag.ErrorMessage =
+                    "업데이트가 되지 않았습니다. 암호를 확인하세요.";
+                return View(board);
+            }
+        }
     }
 }

@@ -8,7 +8,11 @@
 <h2 style="text-align:center;">게시판</h2>
 <hr />
 
-<table style="width:1000px; margin-left:auto; margin-right:auto;">
+<div>
+    <a asp-action="Write" class="btn btn-default" style="float: right;">글쓰기</a>
+</div>
+<br /><br />
+<table style="width:90%; margin-left:auto; margin-right:auto;">
     <tr style="border-collapse: collapse; border-bottom:1px solid gray;">
         <th style="width: 70px; text-align: center;">@Html.DisplayNameFor(model => model.Id)</th>
         <th style="width: 360px; text-align: center;">@Html.DisplayNameFor(model => model.Title)</th>
@@ -34,16 +38,3 @@
     }
 </table>
 
-<a asp-action="Write" class="btn btn-default">글쓰기</a>
-
-@*<input type="button" value="글쓰기" class="btnWrite" />*@
-
-
-@*@section Scripts{
-        <script>
-            $(".btnWrite").click(function () {
-                $(location).attr('href', '/Board/Write');
-            });
-        </script>
-
-    }*@
