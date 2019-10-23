@@ -1,61 +1,18 @@
 ﻿@model Board
 
-@{
-    ViewData["Title"] = "Write";
-}
-<form asp-controller="Board" asp-action="Write" enctype="multipart/form-data" method="post">
-    <div style="width:700px; padding:0px; margin:auto;">
-        <table style="width:700px; margin-left:auto; margin-right:auto;">
-            <tbody>
-                <tr style="color: white; background-color: #5E8680; text-align:center;">
-                    <td colspan="4" style="height: 35px;">
-                        <span style="font-weight:bold;font-size:16px;">
-                            제 목 : <input type="text" name="Title" placeholder="제목을 입력하세요." />
-                        </span>
-                    </td>
-                </tr>
-                <tr style="background-color:#efefef;">
-                    <td class="text-right" style="width:15%;">
-                        번 호 :
-                    </td>
-                    <td style="width:35%; font-size:14px;">
-                        <span style="font-size:14px;"></span>
-                    </td>
-                    <td class="text-right" style="width:15%; font-size:14px;">
-                        작성일 :
-                    </td>
-                    <td style="width:35%;">
-                        <span style="font-size:15px; text-align:left;">@DateTime.Now</span>
-                    </td>
-                </tr>
-                <tr style="background-color:#efefef;">
-                    <td class="text-right" style="width:15%; font-size:14px;">
-                        작성자 :
-                    </td>
-                    <td colspan="3">
-                        <input type="text" name="Name" placeholder="이름을 입력하세요." />
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="padding: 10px; height: 100px; vertical-align:top;">
-                        <textarea name="Content" style="width: 100%;" placeholder="내용을 입력하세요."></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-right" style="width:15%; font-size:14px;">
-                        Password :
-                    </td>
-                    <td colspan="3">
-                        <input type="password" placeholder="네 자리 숫자를 입력하세요." />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<h2 style="text-align:center;">게시판</h2>
+@ViewBag.TitleDescription
+<hr />
 
-        <button type="submit">작성</button>
+<div class="row">
+    <div class="col-md-offset-2 col-md-8 col-md-offset-2">
+        <form asp-controller="DotNetNote" asp-action="Create"
+              enctype="multipart/form-data" method="post">
+            @await Html.PartialAsync("_BoardEditorForm")
+        </form>
     </div>
-</form>
+</div>
 
-@{ 
-    await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

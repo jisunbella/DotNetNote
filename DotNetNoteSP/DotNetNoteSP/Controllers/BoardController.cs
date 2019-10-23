@@ -13,6 +13,11 @@ namespace DotNetNote.Controllers
         private IHostingEnvironment _environment; //환경 변수
         private IBoardRepository _repository; //게시판 리포지토리
 
+        /// <summary>
+        /// 현재 보여줄 페이지 번호
+        /// </summary>
+        public int PageIndex { get; set; } = 1;
+
         public BoardController(IHostingEnvironment environment, IBoardRepository repository)
         {
             _environment = environment;
@@ -65,11 +70,11 @@ namespace DotNetNote.Controllers
             b.Content = board.Content;
             b.Password = board.Password;
 
-            _repository.WriteArticle(b);
+            _repository.WriteArticle(b); //데이터 저장
 
             TempData["Message"] = "데이터가 저장되었습니다.";
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index"); // 저장 후 리스트 페이지로 이동
         }
 
     }

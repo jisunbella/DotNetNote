@@ -53,7 +53,7 @@ namespace DotNetNote.Models
         {
             var parameters = new DynamicParameters(new { Id = id });
             //return con.Query<Board>("SELECT Id, Title, Name, PostDate, Content FROM Board WHERE Id = @Id", parameters).SingleOrDefault();
-            return con.Query<Board>("SP_GetDetail", parameters, commandType: CommandType.StoredProcedure).SingleOrDefault();
+            return con.Query<Board>("[SP_GetDetail]", parameters, commandType: CommandType.StoredProcedure).SingleOrDefault();
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace DotNetNote.Models
                 p.Add("@Content", value: board.Content, dbType: DbType.String);
                 p.Add("@Password", value: board.Password, dbType: DbType.Int32);
 
-                con.Execute("SP_WriteArticle", p, commandType: CommandType.StoredProcedure);
+                con.Execute("[SP_WriteArticle]", p, commandType: CommandType.StoredProcedure);
                 
                 
             }
