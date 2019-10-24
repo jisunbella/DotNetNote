@@ -129,6 +129,7 @@ namespace DotNetNote.Models
         /// </summary>
         public List<Board> GetSearchAll(int page, string searchField, string searchQuery)
         {
+            //클래스로 파라미터를 세팅하는 방법
             var parameters = new DynamicParameters(new { Page = page, SearchField = searchField, SearchQuery = searchQuery });
 
             return con.Query<Board>("[SP_Search]", parameters, commandType: CommandType.StoredProcedure).ToList();

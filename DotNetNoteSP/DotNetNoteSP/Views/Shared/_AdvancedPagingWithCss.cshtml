@@ -61,8 +61,9 @@
 
     @{
         int i = 0;
+        int page = (PageNumber - 1) / (int)PagerButtonCount;
     }
-    @for (i = (((PageNumber - 1) / (int)PagerButtonCount) * PagerButtonCount + 1); i <= ((((PageNumber - 1) / (int)PagerButtonCount) + 1) * PagerButtonCount); i++)
+    @for (i = (page * PagerButtonCount + 1); i <= ((page + 1) * PagerButtonCount); i++)
     {
         if (i > PageCount)
         {
@@ -97,13 +98,13 @@
     {
         if (SearchMode)
         {
-            <a href="/@Url?Page=@(((PageNumber - 1) / (int)PagerButtonCount) * PagerButtonCount + (PagerButtonCount + 1))&SearchField=@SearchFiled&SearchQuery=@SearchQuery" class="next">
+            <a href="/@Url?Page=@(page * PagerButtonCount + (PagerButtonCount + 1))&SearchField=@SearchFiled&SearchQuery=@SearchQuery" class="next">
                 다음
             </a>
         }
         else
         {
-            <a href="/@Url?Page=@(((PageNumber - 1) / (int)PagerButtonCount) * PagerButtonCount + (PagerButtonCount + 1))" class="next">
+            <a href="/@Url?Page=@(page * PagerButtonCount + (PagerButtonCount + 1))" class="next">
                 다음
             </a>
         }

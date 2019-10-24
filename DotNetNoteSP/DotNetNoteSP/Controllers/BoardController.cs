@@ -31,14 +31,14 @@ namespace DotNetNote.Controllers
         public bool SearchMode { get; set; } = false;
         public string SearchField { get; set; } // 필드: Name, Title, Content
         public string SearchQuery { get; set; } // 검색 내용
-        
+
         /// <summary>
         /// 게시판 리스트
         /// </summary>
         /// <returns>Index.cshtml</returns>
         public IActionResult Index()
         {
-            // 검색 모드 결정: ?SearchField=Name&SearchQuery=닷넷코리아 
+            // 검색 모드 결정: ?SearchField=Name&SearchQuery=검색어 //쿼리스트링 방식
             SearchMode = (
                 !string.IsNullOrEmpty(Request.Query["SearchField"]) &&
                 !string.IsNullOrEmpty(Request.Query["SearchQuery"])
@@ -106,7 +106,7 @@ namespace DotNetNote.Controllers
                 ViewBag.FileName = "(업로드된 파일이 없습니다.)";
             }
             else
-            {           
+            {
                 // 이미지 미리보기:
                 if (Dul.BoardLibrary.IsPhoto(board.FileName))
                 {
@@ -117,8 +117,6 @@ namespace DotNetNote.Controllers
             return View(board);
         }
 
-  
-
         /// <summary>
         /// 글쓰기
         /// </summary>
@@ -127,7 +125,7 @@ namespace DotNetNote.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Write(Board board, ICollection<IFormFile> files)
         {
@@ -188,13 +186,10 @@ namespace DotNetNote.Controllers
         [HttpPost]
         public IActionResult Delete(int id, string Password)
         {
-            //if (_repository.DeleteArticle(id,
-            //    Common.CryptorEngine.EncryptPassword(Password)) > 0)
             if (_repository.DeleteArticle(id, Password) > 0)
             {
                 TempData["Message"] = "데이터가 삭제되었습니다.";
 
-                // 학습 목적으로 삭제 후의 이동 페이지를 2군데 중 하나로 분기
                 if (DateTime.Now.Second % 2 == 0)
                 {
                     //[a] 삭제 후 특정 뷰 페이지로 이동

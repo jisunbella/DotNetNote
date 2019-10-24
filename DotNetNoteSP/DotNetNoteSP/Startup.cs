@@ -36,14 +36,12 @@ namespace DotNetNote
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSingleton<IConfiguration>(Configuration);
-            // 각각의 repository 클래스의 생성자에서 Configuration 개체를 통해서 appsettings.json 파일에 등록된 데이터베이스 연결 문자열을 사용할 수 있도록 설정하는 코드
+            /* 각각의 repository 클래스의 생성자에서 Configuration 개체를 통해서 
+            appsettings.json 파일에 등록된 데이터베이스 연결 문자열을 사용할 수 있도록 설정하는 코드*/
 
             services.AddTransient<IBoardRepository, BoardRepository>(); // 기본 방식
-            //게시판 관련 서비스 등록, DotNetNote Controller에서 생성자 주입 방식으로 INoteRepository를 넘겨주면 컨트롤러 실행 시 자동으로 NoteRepository 클래스의 인스턴스를 생성해주는 역할
-
-            //services.AddSingleton<IBoardRepository>(new BoardRepository(Configuration["ConnectionStrings:DefaultConnection"]));
-            //게시판 댓글 관련 서비스 등록, 싱글톤 메서드를 이용해 Startup.cs파일에서 NoteCommentaryRepository 클래스 생성자에 데이터베이스 연결 문자열을 전송하는 방식을 사용
-
+            /*게시판 관련 서비스 등록, Board Controller에서 생성자 주입 방식으로 IBoardRepository를 넘겨주면 
+              컨트롤러 실행 시 자동으로 BoardRepository 클래스의 인스턴스를 생성해주는 역할*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
